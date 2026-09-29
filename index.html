@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vinir Rai — VINIR.OS</title>
+  <meta name="description" content="Vinir Rai — Computer Science at UNC Chapel Hill. Software engineer building RAG systems, data pipelines and interactive interfaces." />
+  <meta property="og:title" content="Vinir Rai — VINIR.OS" />
+  <meta property="og:description" content="Interactive portfolio & resume of Vinir Rai: AI/RAG systems, full-stack web, data science." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#05060f" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2305060f'/><path d='M14 16l18 34 18-34' fill='none' stroke='%2300f0ff' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Boot sequence -->
+  <div id="boot" aria-hidden="true">
+    <pre id="boot-log"></pre>
+    <div class="boot-hint">press any key or click to skip</div>
+  </div>
+
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- HUD -->
+  <header class="hud">
+    <a href="#top" class="hud-logo" aria-label="Back to top">VINIR<span>.OS</span></a>
+    <nav class="hud-nav" aria-label="Main">
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list" aria-label="Toggle menu">☰</button>
+      <ul id="nav-list">
+        <li><a href="#about">Profile</a></li>
+        <li><a href="#quests">Quests</a></li>
+        <li><a href="#missions">Missions</a></li>
+        <li><a href="#inventory">Inventory</a></li>
+        <li><a href="#terminal">Terminal</a></li>
+        <li><a href="#arcade">Arcade</a></li>
+        <li><a href="#contact">Comms</a></li>
+      </ul>
+    </nav>
+    <div class="hud-xp" title="Explore the site and unlock achievements to level up">
+      <span class="lvl">LV <b id="lvl">1</b></span>
+      <div class="xpbar"><div id="xpfill"></div></div>
+      <button id="ach-btn" class="ach-btn" aria-label="Show achievements">🏅 <b id="ach-count">0</b>/<span id="ach-total">0</span></button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section id="top" class="hero">
+      <div class="hero-inner">
+        <p class="eyebrow mono">&gt; player_one.connected</p>
+        <h1 class="glitch" data-text="VINIR RAI">VINIR RAI</h1>
+        <p class="role mono"><span id="typed"></span><span class="caret">▌</span></p>
+        <p class="headline" id="headline"></p>
+        <div class="cta-row">
+          <a href="#missions" class="btn btn-primary">▶ Start Mission</a>
+          <a href="#arcade" class="btn">🎮 Play Arcade</a>
+          <a id="resume-btn" href="#" class="btn" download hidden>⬇ Resume</a>
+        </div>
+        <p class="hint mono">tip: click anywhere in space to warp · try the konami code</p>
+      </div>
+      <a href="#about" class="scroll-cue" aria-label="Scroll to profile"><span></span></a>
+    </section>
+
+    <!-- ABOUT / PLAYER CARD -->
+    <section id="about" class="section" data-section>
+      <h2 class="section-title"><span class="idx">01</span> Player Profile</h2>
+      <div class="profile-grid">
+        <article class="card player-card tilt">
+          <div class="avatar" aria-hidden="true">
+            <svg viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#00f0ff"/><stop offset="1" stop-color="#ff2bd6"/></linearGradient></defs>
+              <polygon points="60,6 110,33 110,87 60,114 10,87 10,33" fill="none" stroke="url(#g)" stroke-width="3"/>
+              <text x="60" y="74" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="38" fill="url(#g)">VR</text>
+            </svg>
+          </div>
+          <h3 id="pc-name"></h3>
+          <p class="mono dim" id="pc-class"></p>
+          <dl class="pc-meta mono">
+            <div><dt>BASE</dt><dd id="pc-loc"></dd></div>
+            <div><dt>STATUS</dt><dd><span class="dot"></span> Online · open to opportunities</dd></div>
+          </dl>
+          <div class="counters" id="counters"></div>
+        </article>
+        <div class="profile-main">
+          <div class="card bio" id="bio"></div>
+          <div class="card">
+            <h3 class="card-title mono">// ATTRIBUTES</h3>
+            <div id="stats" class="stats"></div>
+          </div>
+        </div>
+      </div>
+      <div class="edu-row">
+        <div class="card"><h3 class="card-title mono">// ACADEMY</h3><div id="education"></div></div>
+        <div class="card"><h3 class="card-title mono">// TROPHY CASE</h3><ul id="trophies" class="trophies"></ul></div>
+        <div class="card"><h3 class="card-title mono">// GUILDS &amp; SIDE QUESTS</h3><div id="guilds"></div></div>
+      </div>
+    </section>
+
+    <!-- QUESTS -->
+    <section id="quests" class="section" data-section>
+      <h2 class="section-title"><span class="idx">02</span> Quest Log <small class="mono dim">experience</small></h2>
+      <p class="section-sub mono dim">Select a quest to expand its mission report.</p>
+      <ol id="quest-list" class="quest-list"></ol>
+    </section>
+
+    <!-- MISSIONS -->
+    <section id="missions" class="section" data-section>
+      <h2 class="section-title"><span class="idx">03</span> Missions <small class="mono dim">projects</small></h2>
+      <div class="filters mono" role="group" aria-label="Filter projects">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="ai">AI</button>
+        <button class="chip" data-filter="data">Data</button>
+        <button class="chip" data-filter="web">Web</button>
+        <button class="chip" data-filter="mobile">Mobile</button>
+      </div>
+      <div id="mission-grid" class="mission-grid"></div>
+    </section>
+
+    <!-- INVENTORY -->
+    <section id="inventory" class="section" data-section>
+      <h2 class="section-title"><span class="idx">04</span> Inventory <small class="mono dim">skills</small></h2>
+      <div id="inv" class="inv"></div>
+    </section>
+
+    <!-- TERMINAL -->
+    <section id="terminal" class="section" data-section>
+      <h2 class="section-title"><span class="idx">05</span> Terminal</h2>
+      <div class="term card" id="term">
+        <div class="term-bar"><span></span><span></span><span></span><em class="mono">guest@vinir.os: ~</em></div>
+        <div class="term-body mono" id="term-out" aria-live="polite"></div>
+        <form class="term-input mono" id="term-form" autocomplete="off">
+          <label for="term-in"><span class="prompt">guest@vinir.os:~$</span></label>
+          <input id="term-in" type="text" spellcheck="false" autocapitalize="off" placeholder="type 'help'" />
+        </form>
+      </div>
+    </section>
+
+    <!-- ARCADE -->
+    <section id="arcade" class="section" data-section>
+      <h2 class="section-title"><span class="idx">06</span> Arcade <small class="mono dim">orbital debris dodger</small></h2>
+      <p class="section-sub dim">Inspired by <b>CelestiaGrid</b>: pilot a satellite through low-Earth orbit, dodge debris, and collect data cores.
+        <span class="mono">←/→ or A/D to move · touch &amp; drag on mobile</span></p>
+      <div class="arcade card">
+        <canvas id="game" width="800" height="480" aria-label="Orbital debris dodger game"></canvas>
+        <div class="game-overlay" id="game-overlay">
+          <h3 id="go-title">ORBITAL DEBRIS DODGER</h3>
+          <p id="go-sub" class="mono">High score: <b id="hi">0</b></p>
+          <button class="btn btn-primary" id="game-start">▶ Launch</button>
+        </div>
+        <div class="game-hud mono"><span>SCORE <b id="score">0</b></span><span>SHIELD <b id="shield">♥♥♥</b></span></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section" data-section>
+      <h2 class="section-title"><span class="idx">07</span> Open Comms Channel</h2>
+      <div class="card contact">
+        <p class="big">Building something interesting, hiring, or just want to talk ideas? <span class="accent">Let's connect.</span></p>
+        <div class="contact-links" id="contact-links"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer mono dim">
+    <p>© <span id="year"></span> Vinir Rai · VINIR.OS v2.6 · hand-built, hosted free on GitHub Pages</p>
+  </footer>
+
+  <!-- Achievements -->
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <dialog id="ach-dialog" class="ach-dialog">
+    <h3 class="mono">// ACHIEVEMENTS</h3>
+    <ul id="ach-list"></ul>
+    <form method="dialog"><button class="btn">Close</button></form>
+  </dialog>
+
+  <noscript><p class="noscript">VINIR.OS needs JavaScript to boot. Find me on <a href="https://www.linkedin.com/in/vinirrai/">LinkedIn</a> or <a href="https://github.com/vinirrai">GitHub</a>.</p></noscript>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
