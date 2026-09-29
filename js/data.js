@@ -20,7 +20,7 @@ window.SITE = {
   playerClass: "Full-Stack Engineer · Data Mage",
 
   bio: [
-    "Hi, I'm Vinir! I study Computer Science at UNC Chapel Hill — B.S. with Distinction (minors in Data Science and Hindi-Urdu), now continuing into the M.S. program. I enjoy building things that make life a little easier: an AI assistant that answers course questions with real citations, a dashboard that turns raw metrics into decisions, or an iOS app to track personal health.",
+    "Hi, I'm Vinir! I study Computer Science at UNC Chapel Hill — B.S. with Distinction (minors in Data Science and South Asian Studies), now continuing into the M.S. program. I enjoy building things that make life a little easier: an AI assistant that answers course questions with real citations, a dashboard that turns raw metrics into decisions, or an iOS app to track personal health.",
     "I love taking an idea from a rough sketch to something people can actually use, and I'm especially interested in the overlap of engineering and design, where small choices make a big difference in how someone experiences technology.",
     "Outside of tech I play drums, soccer and cricket, and I enjoy bringing people together through cultural events.",
   ],
@@ -276,7 +276,7 @@ window.SITE = {
       school: "University of North Carolina at Chapel Hill",
       degree: "B.S. in Computer Science, with Distinction",
       dates: "2022 — May 2026",
-      detail: "Minors: Data Science, Hindi-Urdu",
+      detail: "Minors: Data Science, South Asian Studies",
     },
   ],
 
