@@ -25,6 +25,13 @@
     { id: "ace", icon: "🏆", name: "Ace Pilot", desc: "Scored 50+ in the arcade" },
     { id: "konami", icon: "🕹️", name: "Old School", desc: "Entered the Konami code" },
     { id: "comms", icon: "🤝", name: "Handshake", desc: "Opened a comms channel" },
+    { id: "orbit", icon: "🪐", name: "Orbital Navigator", desc: "Traveled by clicking a 3D satellite" },
+    { id: "recruiter", icon: "👔", name: "Suit Up", desc: "Tried Recruiter Mode" },
+    { id: "breaker", icon: "🐛", name: "Debugger", desc: "Cleared a level of Bug Breaker" },
+    { id: "memory", icon: "🧠", name: "Total Recall", desc: "Completed Stack Match" },
+    { id: "typer", icon: "⌨️", name: "Speed Coder", desc: "40+ WPM at 90%+ accuracy in Hyper Typer" },
+    { id: "ttt", icon: "🤖", name: "Turing Tested", desc: "Drew against the Unbeatable minimax AI" },
+    { id: "arcade-all", icon: "🕹️", name: "Arcade Champion", desc: "Played all five arcade games" },
   ];
   const got = new Set(store.get("vos-ach", []));
 
@@ -80,7 +87,7 @@
     };
     if (seen || reduceMotion) { el.classList.add("done"); unlock("boot"); return; }
     const lines = [
-      "VINIR.OS BIOS v2.6  (c) 2026 Chapel Hill Dynamics",
+      "VINIR.OS BIOS v3.0  (c) 2026 Chapel Hill Dynamics",
       "",
       "CPU0: Tar Heel Core · Dean's List x4 ............. [ OK ]",
       "MEM : 4,400,000 rows checked ....................... [ OK ]",
@@ -164,13 +171,14 @@
     requestAnimationFrame(loop);
 
     const warp = () => {
+      window.dispatchEvent(new Event("vos:warp"));
       target = 1.6;
       document.body.classList.add("warp");
       setTimeout(() => { target = 0.06; document.body.classList.remove("warp"); }, 900);
       unlock("warp");
     };
     // Warp when clicking "empty space" in the hero.
-    $("#top").addEventListener("click", (e) => { if (!e.target.closest("a, button")) warp(); });
+    $("#top").addEventListener("click", (e) => { if (!e.target.closest("a, button, #hero3d")) warp(); });
     return { warp };
   }
 
@@ -200,6 +208,12 @@
     $("#year").textContent = new Date().getFullYear();
 
     if (S.links.resume) { const r = $("#resume-btn"); r.href = S.links.resume; r.hidden = false; }
+    $("#recruiter-contact").innerHTML = [
+      S.links.email && `<a href="mailto:${esc(S.links.email)}">${esc(S.links.email)}</a>`,
+      S.links.linkedin && `<a href="${esc(S.links.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>`,
+      S.links.github && `<a href="${esc(S.links.github)}" target="_blank" rel="noopener">GitHub</a>`,
+      esc(S.location),
+    ].filter(Boolean).join(" · ");
 
     $("#counters").innerHTML = S.counters.map((c) =>
       `<div class="counter"><b data-count="${c.value}" data-dec="${c.decimals || 0}" data-suffix="${esc(c.suffix || "")}">0</b><span>${esc(c.label)}</span></div>`
@@ -274,7 +288,7 @@
   /* ───────────── Interactions ───────────── */
   function countUp(el) {
     const end = parseFloat(el.dataset.count), dec = +el.dataset.dec, suf = el.dataset.suffix;
-    if (reduceMotion) { el.textContent = end.toFixed(dec) + suf; return; }
+    if (reduceMotion || document.body.classList.contains("recruiter")) { el.textContent = end.toFixed(dec) + suf; return; }
     const t0 = performance.now(), dur = 1400;
     const step = (now) => {
       const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
@@ -321,6 +335,7 @@
       btn.addEventListener("click", () => {
         const li = btn.parentElement;
         const open = li.classList.toggle("open");
+        li.dataset.userOpen = open ? "1" : "0";
         btn.setAttribute("aria-expanded", open);
         if (open) { opened.add(i); if (opened.size >= 3) unlock("lore"); }
       });
@@ -354,6 +369,36 @@
     const btn = $(".nav-toggle"), list = $("#nav-list");
     btn.addEventListener("click", () => { const o = list.classList.toggle("open"); btn.setAttribute("aria-expanded", o); });
     $$("#nav-list a").forEach((a) => a.addEventListener("click", () => { list.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); }));
+  }
+
+  /* ───────────── Recruiter mode ─────────────
+   * One click strips the boot screen, 3D, animations, terminal and games
+   * and expands every quest: a fast, plain resume view.
+   * Shareable as ?mode=recruiter. */
+  function recruiterMode() {
+    const btn = $("#recruiter-btn");
+    const params = new URLSearchParams(location.search);
+    const set = (on, announce) => {
+      document.body.classList.toggle("recruiter", on);
+      btn.setAttribute("aria-pressed", on);
+      btn.querySelector("span").textContent = on ? "Exit recruiter mode" : "Recruiter mode";
+      $$(".quest").forEach((q) => {
+        q.classList.toggle("open", on || q.dataset.userOpen === "1");
+        q.querySelector(".quest-head").setAttribute("aria-expanded", q.classList.contains("open"));
+      });
+      store.set("vos-recruiter", on);
+      if (on) {
+        unlock("recruiter");
+        $("#boot").classList.add("done");
+        $$("[data-count]").forEach((c) => { c.textContent = (+c.dataset.count).toFixed(+c.dataset.dec) + c.dataset.suffix; });
+        $$(".stat-bar i").forEach((i) => { i.style.width = i.dataset.w + "%"; });
+      }
+      if (announce) toast(on ? "👔" : "🚀", on ? "Recruiter mode on" : "Full experience restored", "DISPLAY MODE");
+    };
+    const initial = params.get("mode") === "recruiter" || (params.get("mode") !== "game" && store.get("vos-recruiter", false));
+    if (initial) set(true, false);
+    btn.addEventListener("click", () => set(!document.body.classList.contains("recruiter"), true));
+    return { set };
   }
 
   function konami(sf) {
@@ -396,7 +441,9 @@
         "  contact       comms channels",
         "  goto &lt;id&gt;     jump to: about quests missions inventory arcade contact",
         "  ls / cat      browse files",
-        "  play          launch the arcade",
+        "  games         list arcade games",
+        "  play [game]   launch a game: dodger breaker memory typer ttt",
+        "  recruiter     toggle recruiter mode (plain resume view)",
         "  warp          engage warp drive",
         "  achievements  your progress",
         "  history, date, echo, clear",
@@ -416,7 +463,15 @@
       ls: () => Object.keys(files).map((f) => `<span class='hl'>${f}</span>`).join("  "),
       cat: (arg) => files[arg] ? files[arg]() : `<span class='err'>cat: ${esc(arg || "")}: no such file</span>`,
       goto: (arg) => { if (!document.getElementById(arg || "")) return `<span class='err'>goto: unknown section '${esc(arg || "")}'</span>`; goto(arg); return `<span class='ok'>navigating to #${esc(arg)}…</span>`; },
-      play: () => { goto("arcade"); setTimeout(() => $("#game-start")?.focus(), 600); return "<span class='ok'>launching arcade… press ▶ Launch</span>"; },
+      games: () => (window.ARCADE ? ARCADE.games.map((g) => `${g.icon} <span class='hl'>${g.id.padEnd(8)}</span> ${esc(g.name)} — ${esc(g.blurb)}`).join("\n") + "\n\ntype <span class='y'>play &lt;id&gt;</span>" : "arcade offline"),
+      play: (arg) => {
+        const g = window.ARCADE && ARCADE.games.find((x) => x.id === (arg || "").toLowerCase());
+        if (arg && !g) return `<span class='err'>play: unknown game '${esc(arg)}'</span> — try <span class='y'>games</span>`;
+        if (window.ARCADE) ARCADE.open(g ? g.id : "dodger");
+        goto("arcade");
+        return `<span class='ok'>launching ${esc(g ? g.name : "the arcade")}…</span>`;
+      },
+      recruiter: () => { const on = !document.body.classList.contains("recruiter"); rm.set(on, true); return on ? "<span class='ok'>recruiter mode on: plain resume view</span>" : "<span class='ok'>full experience restored</span>"; },
       warp: () => { sf.warp(); return "<span class='ok'>⚡ warp drive engaged</span>"; },
       achievements: () => `${got.size}/${ACH.length} unlocked\n` + ACH.map((a) => `${got.has(a.id) ? a.icon : "🔒"} ${got.has(a.id) ? esc(a.name) : "???"}`).join("\n"),
       history: () => hist.map((h, i) => `${String(i + 1).padStart(3)}  ${esc(h)}`).join("\n"),
@@ -462,7 +517,7 @@
     });
     $("#term").addEventListener("click", (e) => { if (!e.target.closest("a")) input.focus({ preventScroll: true }); });
 
-    print(`<span class='ok'>VINIR.OS terminal v2.6</span> — type <span class='y'>help</span> to list commands. Tab completes, ↑/↓ for history.`);
+    print(`<span class='ok'>VINIR.OS terminal v3.0</span> — type <span class='y'>help</span> to list commands. Tab completes, ↑/↓ for history.`);
   }
 
   /* ───────────── Init ───────────── */
@@ -470,12 +525,14 @@
   updateXP();
   boot();
   const sf = starfield();
+  window.VOS.warp = sf.warp;
   typeRoles();
   quests();
   filters();
   tilt();
   mobileNav();
   observe();
+  const rm = recruiterMode();
   konami(sf);
   terminal(sf);
 })();

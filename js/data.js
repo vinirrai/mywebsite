@@ -8,27 +8,27 @@
 window.SITE = {
   name: "Vinir Rai",
   handle: "vinirrai",
-  headline: "CS M.S. @ UNC Chapel Hill · Builder of RAG systems, data pipelines & interfaces",
+  headline: "B.S.–M.S. Computer Science @ UNC Chapel Hill · Applied AI & Software Engineering",
   roles: [
     "Software Engineer",
-    "AI / RAG Engineer",
-    "Data Scientist",
+    "Applied AI Engineer",
+    "Agentic AI Developer",
     "Full-Stack Developer",
-    "Research Assistant",
+    "Graduate TA",
   ],
   location: "Chapel Hill, NC",
-  playerClass: "Full-Stack Engineer · Data Mage",
+  playerClass: "Applied AI Engineer · Full-Stack Mage",
 
   bio: [
-    "Hi, I'm Vinir! I study Computer Science at UNC Chapel Hill — B.S. with Distinction (minors in Data Science and South Asian Studies), now continuing into the M.S. program. I enjoy building things that make life a little easier: an AI assistant that answers course questions with real citations, a dashboard that turns raw metrics into decisions, or an iOS app to track personal health.",
-    "I love taking an idea from a rough sketch to something people can actually use, and I'm especially interested in the overlap of engineering and design, where small choices make a big difference in how someone experiences technology.",
-    "Outside of tech I play drums, soccer and cricket, and I enjoy bringing people together through cultural events.",
+    "Hi, I'm Vinir! I'm an M.S. Computer Science student at UNC Chapel Hill through the accelerated B.S.–M.S. program, and I serve as a Graduate TA for COMP 523: Software Engineering Laboratory. I graduated from UNC with a B.S. in Computer Science with Distinction, with minors in Data Science and South Asian Studies.",
+    "I work across software engineering, data systems, applied AI and research, and I enjoy building technology that solves practical problems: a health-focused iOS app, a data analytics dashboard for AAA, a satellite tracking system, full-stack products, and RAG-based assistants and agentic AI systems. I've taught and worked with students in software engineering, data science, machine learning and applied AI at UNC and BITSoM, and I'm exploring research in applied AI and NLP while serving as Chair of UNC's Student Technology Council.",
+    "Outside of tech I play drums, soccer and 8-ball pool, and I love bringing people together through cultural and community events. Always happy to connect with people working on interesting problems in software, AI, NLP or research.",
   ],
 
   // Headline numbers shown on the player card.
   counters: [
     { value: 4, suffix: "×", label: "Dean's List" },
-    { value: 6, label: "Projects shipped" },
+    { value: 4, label: "Courses supported" },
     { value: 4.4, decimals: 1, suffix: "M+", label: "Rows wrangled" },
     { value: 60, suffix: "+", label: "Residents mentored" },
   ],
@@ -43,7 +43,7 @@ window.SITE = {
 
   // Player attributes: self-rated 0–100. Tweak freely.
   stats: [
-    { label: "AI / RAG Systems", value: 90 },
+    { label: "AI / RAG & Agentic Systems", value: 92 },
     { label: "Python & Data Pipelines", value: 90 },
     { label: "Full-Stack Web", value: 85 },
     { label: "Statistics & Modeling", value: 80 },
@@ -53,6 +53,21 @@ window.SITE = {
 
   // Experience → "Quest Log". status: "active" | "complete"
   quests: [
+    {
+      title: "Graduate Teaching Assistant — COMP 523: Software Engineering Lab",
+      org: "UNC Department of Computer Science",
+      where: "Chapel Hill, NC",
+      dates: "Aug 2026 — Present",
+      status: "active",
+      xp: 2000,
+      points: [
+        "Graduate TA for COMP 523, supporting teams that build and deliver semester-long software products for real-world clients.",
+        "Give technical guidance on software architecture, requirements engineering, API and component design, Git workflows, debugging, testing, integration and deployment.",
+        "Review implementations and help teams resolve system-design, code-organization, integration and maintainability issues.",
+        "Guide teams through the full lifecycle, from requirements and planning through implementation, testing, client feedback and final delivery.",
+      ],
+      tags: ["Software Architecture", "Code Review", "Mentoring", "SDLC"],
+    },
     {
       title: "Research Assistant — NEXUS Exposomics Platform",
       org: "UNC School of Information and Library Science",
@@ -65,6 +80,22 @@ window.SITE = {
         "Working with the Geospatial Sciences Hub and research partners to standardize module inputs, outputs, metadata and execution requirements for scalable health-research infrastructure.",
       ],
       tags: ["Python", "R", "Docker", "CyVerse", "Research"],
+    },
+    {
+      title: "Applied AI Developer — MBA Course (AIBM)",
+      org: "BITSoM · BITS School of Management",
+      where: "Remote",
+      dates: "Jun 2026 — Jul 2026",
+      status: "complete",
+      xp: 1900,
+      points: [
+        "Built production-style starter code and infrastructure for an Applied AI course: reusable GitHub repositories and development environments for student projects.",
+        "Built and maintained a RAG chatbot pipeline integrating LLM APIs, vector retrieval, document ingestion, embeddings and context-aware generation.",
+        "Developed infrastructure for agentic AI projects: autonomous LLM agents, browser-based interaction, tool use, state management and multi-step task execution.",
+        "Engineered and tested an agentic shopping environment with browser automation, behavioral data collection, purchase-history tracking and safeguards preventing autonomous checkout.",
+        "Hardened Docker/Codespaces environments, dependency management and model-loading validation so students get reproducible setups.",
+      ],
+      tags: ["Agentic AI", "RAG", "LLM APIs", "Docker", "Codespaces"],
     },
     {
       title: "TA & Course Systems Developer — MBA 742 / COMP 488",
@@ -99,7 +130,7 @@ window.SITE = {
     {
       title: "IT Innovations Intern — Full-Stack Development",
       org: "AAA — The Auto Club Group",
-      where: "Dearborn, MI",
+      where: "Detroit, MI",
       dates: "May 2025 — Aug 2025",
       status: "complete",
       xp: 1800,
@@ -207,6 +238,18 @@ window.SITE = {
       icon: "🧠",
     },
     {
+      name: "Agentic Shopping Lab",
+      subtitle: "Autonomous LLM Agents for an Applied AI Course",
+      badge: "BITSoM · 2026",
+      description:
+        "A sandboxed agentic shopping environment for MBA students: LLM agents browse, compare and add to cart through browser automation, with tool use, state management and multi-step task execution, behavioral data collection and purchase-history tracking, plus hard safeguards that stop agents from ever checking out on their own.",
+      tech: ["LLM Agents", "Browser Automation", "Python", "RAG", "Docker", "Codespaces"],
+      category: ["ai"],
+      repo: "",
+      live: "",
+      icon: "🛒",
+    },
+    {
       name: "EstateWise",
       subtitle: "AI Real Estate Analytics Platform",
       badge: "2025",
@@ -261,32 +304,33 @@ window.SITE = {
     "Languages": ["Python", "TypeScript", "JavaScript", "SQL", "R", "Stata", "Swift", "HTML / CSS"],
     "Frameworks": ["Angular", "React", "Next.js", "Express", "FastAPI", "SwiftUI", "Three.js"],
     "Data & ML": ["pandas", "NumPy", "scikit-learn", "Jupyter", "Regression", "Clustering", "ARIMA", "Tableau"],
-    "AI Systems": ["RAG", "Pinecone", "OpenAI API", "Anthropic API", "Gemini", "Text Analysis"],
-    "Infra & Tools": ["Docker", "Git / GitHub", "MongoDB", "REST APIs", "JWT", "Vercel", "Figma", "Chart.js"],
+    "AI Systems": ["Agentic AI", "LLM Agents", "RAG", "Embeddings", "Pinecone", "OpenAI API", "Anthropic API", "Gemini", "NLP"],
+    "Infra & Tools": ["Docker", "Codespaces", "Git / GitHub", "MongoDB", "REST APIs", "JWT", "Vercel", "Figma", "Chart.js"],
   },
 
   education: [
     {
       school: "University of North Carolina at Chapel Hill",
       degree: "M.S. in Computer Science",
-      dates: "In progress",
-      detail: "",
+      dates: "Aug 2026 — Present",
+      detail: "Accelerated B.S.–M.S. program",
     },
     {
       school: "University of North Carolina at Chapel Hill",
       degree: "B.S. in Computer Science, with Distinction",
-      dates: "2022 — May 2026",
+      dates: "Aug 2022 — May 2026",
       detail: "Minors: Data Science, South Asian Studies",
     },
   ],
 
   trophies: [
     { icon: "🏆", name: "Hall of Fame Award" },
-    { icon: "📜", name: "Dean's List ×4" },
+    { icon: "📜", name: "Dean's List ×4 (Fall 2024 – Spring 2026)" },
+    { icon: "🏛️", name: "Chair, UNC Student Technology Council" },
     { icon: "🎓", name: "B.S. with Distinction" },
   ],
 
-  guilds: ["AI Impact Society", "UNC Student Technology Council", "UNC CS + Social Good"],
+  guilds: ["Chair · UNC Student Technology Council", "AI Impact Society", "UNC CS + Social Good"],
 
-  hobbies: ["🥁 Drums", "⚽ Soccer", "🏏 Cricket", "🎉 Cultural events"],
+  hobbies: ["🥁 Drums", "⚽ Soccer", "🎱 8-ball pool", "🎉 Cultural events"],
 };
