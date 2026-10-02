@@ -69,19 +69,6 @@ window.SITE = {
       tags: ["Software Architecture", "Code Review", "Mentoring", "SDLC"],
     },
     {
-      title: "Research Assistant — NEXUS Exposomics Platform",
-      org: "UNC School of Information and Library Science",
-      where: "Chapel Hill, NC",
-      dates: "Jul 2026 — Present",
-      status: "active",
-      xp: 1800,
-      points: [
-        "Building containerized Python, Jupyter and R analysis modules for CyVerse — reproducible components that chain into large-scale exposomics and EXWAS workflows.",
-        "Working with the Geospatial Sciences Hub and research partners to standardize module inputs, outputs, metadata and execution requirements for scalable health-research infrastructure.",
-      ],
-      tags: ["Python", "R", "Docker", "CyVerse", "Research"],
-    },
-    {
       title: "Applied AI Developer — MBA Course (AIBM)",
       org: "BITSoM · BITS School of Management",
       where: "Remote",
