@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vinir Rai — VINIR.OS</title>
-  <meta name="description" content="Vinir Rai — Computer Science at UNC Chapel Hill. Software engineer building RAG systems, data pipelines and interactive interfaces." />
+  <meta name="description" content="Vinir Rai: M.S. Computer Science at UNC Chapel Hill. Applied AI &amp; software engineer building RAG systems, agentic AI, data pipelines and interactive 3D interfaces." />
   <meta property="og:title" content="Vinir Rai — VINIR.OS" />
-  <meta property="og:description" content="Interactive portfolio & resume of Vinir Rai: AI/RAG systems, full-stack web, data science." />
+  <meta property="og:description" content="Interactive 3D portfolio &amp; resume of Vinir Rai: applied AI, agentic systems, full-stack web. Includes an arcade." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#05060f" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2305060f'/><path d='M14 16l18 34 18-34' fill='none' stroke='%2300f0ff' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/></svg>" />
@@ -42,6 +42,7 @@
         <li><a href="#contact">Comms</a></li>
       </ul>
     </nav>
+    <button id="recruiter-btn" class="recruiter-btn mono" aria-pressed="false" title="Skip the animations and games: a fast, plain resume view">👔 <span>Recruiter mode</span></button>
     <div class="hud-xp" title="Explore the site and unlock achievements to level up">
       <span class="lvl">LV <b id="lvl">1</b></span>
       <div class="xpbar"><div id="xpfill"></div></div>
@@ -52,17 +53,20 @@
   <main id="main">
     <!-- HERO -->
     <section id="top" class="hero">
+      <div id="hero3d" class="hero3d" aria-hidden="true"></div>
+      <div id="hero3d-labels" class="hero3d-labels" aria-label="Orbiting satellites: jump to a section"></div>
       <div class="hero-inner">
         <p class="eyebrow mono">&gt; player_one.connected</p>
         <h1 class="glitch" data-text="VINIR RAI">VINIR RAI</h1>
         <p class="role mono"><span id="typed"></span><span class="caret">▌</span></p>
         <p class="headline" id="headline"></p>
+        <p class="recruiter-contact mono" id="recruiter-contact"></p>
         <div class="cta-row">
           <a href="#missions" class="btn btn-primary">▶ Start Mission</a>
           <a href="#arcade" class="btn">🎮 Play Arcade</a>
           <a id="resume-btn" href="#" class="btn" download hidden>⬇ Resume</a>
         </div>
-        <p class="hint mono">tip: click anywhere in space to warp · try the konami code</p>
+        <p class="hint mono"><span class="hint-3d">drag the globe · click a satellite to travel · </span>click space to warp · try the konami code</p>
       </div>
       <a href="#about" class="scroll-cue" aria-label="Scroll to profile"><span></span></a>
     </section>
@@ -142,18 +146,10 @@
 
     <!-- ARCADE -->
     <section id="arcade" class="section" data-section>
-      <h2 class="section-title"><span class="idx">06</span> Arcade <small class="mono dim">orbital debris dodger</small></h2>
-      <p class="section-sub dim">Inspired by <b>CelestiaGrid</b>: pilot a satellite through low-Earth orbit, dodge debris, and collect data cores.
-        <span class="mono">←/→ or A/D to move · touch &amp; drag on mobile</span></p>
-      <div class="arcade card">
-        <canvas id="game" width="800" height="480" aria-label="Orbital debris dodger game"></canvas>
-        <div class="game-overlay" id="game-overlay">
-          <h3 id="go-title">ORBITAL DEBRIS DODGER</h3>
-          <p id="go-sub" class="mono">High score: <b id="hi">0</b></p>
-          <button class="btn btn-primary" id="game-start">▶ Launch</button>
-        </div>
-        <div class="game-hud mono"><span>SCORE <b id="score">0</b></span><span>SHIELD <b id="shield">♥♥♥</b></span></div>
-      </div>
+      <h2 class="section-title"><span class="idx">06</span> Arcade <small class="mono dim">5 games · scores saved on this device</small></h2>
+      <div id="game-tabs" class="game-tabs" role="tablist" aria-label="Choose a game"></div>
+      <p id="game-help" class="game-help"></p>
+      <div id="arcade-stage" class="arcade card" aria-live="polite"></div>
     </section>
 
     <!-- CONTACT -->
@@ -167,7 +163,7 @@
   </main>
 
   <footer class="footer mono dim">
-    <p>© <span id="year"></span> Vinir Rai · VINIR.OS v2.6 · hand-built, hosted free on GitHub Pages</p>
+    <p>© <span id="year"></span> Vinir Rai · VINIR.OS v3.0 · hand-built, hosted free on GitHub Pages</p>
   </footer>
 
   <!-- Achievements -->
@@ -182,6 +178,12 @@
 
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/game.js"></script>
+  <script src="js/arcade.js"></script>
+  <script src="js/games/dodger.js"></script>
+  <script src="js/games/breaker.js"></script>
+  <script src="js/games/memory.js"></script>
+  <script src="js/games/typer.js"></script>
+  <script src="js/games/tictactoe.js"></script>
+  <script type="module" src="js/scene3d.js"></script>
 </body>
 </html>
