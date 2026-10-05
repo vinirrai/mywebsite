@@ -1,4 +1,4 @@
-/* VINIR.OS Arcade — a small game hub. Each game registers itself with
+/* VINIR.OS Arcade: a small game hub. Each game registers itself with
  * ARCADE.register({ id, name, icon, blurb, help, create(stage, api) })
  * and create() returns { destroy() }. The hub owns the tabs, HUD and overlay. */
 (() => {
@@ -58,7 +58,7 @@
     if (current) current.instance.destroy();
     stage.innerHTML = `<div class="game-body"></div><div class="game-hud mono"></div><div class="game-overlay hidden"></div>`;
     stage.dataset.game = game.id;
-    helpEl.innerHTML = `<b>${game.icon} ${game.name}</b> — ${game.blurb} <span class="mono dim">${game.help}</span>`;
+    helpEl.innerHTML = `<b>${game.icon} ${game.name}:</b> ${game.blurb} <span class="mono dim">${game.help}</span>`;
     tabs.querySelectorAll("button").forEach((b) => {
       const on = b.dataset.id === game.id;
       b.classList.toggle("active", on);

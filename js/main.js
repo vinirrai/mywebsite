@@ -1,4 +1,4 @@
-/* VINIR.OS — interactive layer: boot, starfield, rendering, achievements, terminal */
+/* VINIR.OS interactive layer: boot, starfield, rendering, achievements, terminal */
 (() => {
   "use strict";
   const S = window.SITE;
@@ -11,6 +11,14 @@
     get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
   };
+
+  /* Small inline logos for the contact buttons (inherit the text color) */
+  const ICON = {
+    mail: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7 10-7"/></svg>',
+    linkedin: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0h.01z"/></svg>',
+    github: '<svg class="ico" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>',
+  };
+  window.VOS_ICON = ICON;
 
   /* ───────────── Achievements ───────────── */
   const ACH = [
@@ -31,7 +39,10 @@
     { id: "memory", icon: "🧠", name: "Total Recall", desc: "Completed Stack Match" },
     { id: "typer", icon: "⌨️", name: "Speed Coder", desc: "40+ WPM at 90%+ accuracy in Hyper Typer" },
     { id: "ttt", icon: "🤖", name: "Turing Tested", desc: "Drew against the Unbeatable minimax AI" },
-    { id: "arcade-all", icon: "🕹️", name: "Arcade Champion", desc: "Played all five arcade games" },
+    { id: "arcade-all", icon: "🕹️", name: "Arcade Champion", desc: "Played every arcade game" },
+    { id: "geo", icon: "🌍", name: "Geo Genius", desc: "Scored 5,000+ in Orbit Geo" },
+    { id: "fly", icon: "🚀", name: "Liftoff", desc: "Launched Pilot Mode" },
+    { id: "fly-all", icon: "🪐", name: "Grand Tour", desc: "Docked at every planet in Pilot Mode" },
   ];
   const got = new Set(store.get("vos-ach", []));
 
@@ -59,7 +70,7 @@
     store.set("vos-ach", [...got]);
     updateXP();
     toast(a.icon, a.name);
-    if (got.size === ACH.length) setTimeout(() => toast("👑", "100% complete — you're hired?", "ALL ACHIEVEMENTS"), 900);
+    if (got.size === ACH.length) setTimeout(() => toast("👑", "100% complete. You're hired?", "ALL ACHIEVEMENTS"), 900);
   }
 
   function renderAchList() {
@@ -75,35 +86,65 @@
   function boot() {
     const el = $("#boot");
     const log = $("#boot-log");
-    let seen = false;
-    try { seen = sessionStorage.getItem("vos-booted") === "1"; } catch { /* ignore */ }
     const finish = () => {
       if (el.classList.contains("done")) return;
       el.classList.add("done");
-      try { sessionStorage.setItem("vos-booted", "1"); } catch { /* ignore */ }
+      window.dispatchEvent(new Event("vos:booted"));
       window.removeEventListener("keydown", finish);
       el.removeEventListener("click", finish);
       unlock("boot");
     };
-    if (seen || reduceMotion) { el.classList.add("done"); unlock("boot"); return; }
-    const lines = [
-      "VINIR.OS BIOS v3.0  (c) 2026 Chapel Hill Dynamics",
-      "",
-      "CPU0: Tar Heel Core · Dean's List x4 ............. [ OK ]",
-      "MEM : 4,400,000 rows checked ....................... [ OK ]",
-      "LOAD: python typescript angular next.js swift ...... [ OK ]",
-      "LOAD: rag.pinecone  llm.bridge  three.js ........... [ OK ]",
-      `MNT : /quests    (${S.quests.length} entries) ............................ [ OK ]`,
-      `MNT : /missions  (${S.missions.length} entries) ............................ [ OK ]`,
-      "NET : uplink Chapel Hill, NC ....................... [ OK ]",
-      "",
-      "> welcome, player one.",
-    ];
-    let i = 0;
+    // Plays on every visit (skippable with any key or click); skipped for reduced-motion users
+    if (reduceMotion) { el.classList.add("done"); unlock("boot"); return; }
+    // Build a long, realistic boot log from the site's own data so it fills the
+    // screen and scrolls, then hand off to a big "welcome, player one" screen.
+    const narrow = window.innerWidth < 600;
+    const W = narrow ? 30 : 52;
+    const ok = (label, status = "[ OK ]") => {
+      const l = label.length > W ? label.slice(0, W - 1) + "…" : label;
+      return `${l} ${".".repeat(Math.max(3, W - l.length))} ${status}`;
+    };
+    const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 28);
+    const hex = (n) => "0x" + n.toString(16).toUpperCase().padStart(4, "0");
+    const lines = ["VINIR.OS BIOS v3.0  (c) 2026 Chapel Hill Dynamics", "", ok("CPU0: Tar Heel Core"), ok("HONR: Dean's List x4")];
+    for (let b = 0; b < 6; b++) lines.push(ok(`MEM : bank ${hex(b * 0x2000)}-${hex(b * 0x2000 + 0x1fff)}`));
+    lines.push(ok("MEM : 4,400,000 rows checked"), ok("GPU : WebGL context"), "");
+    Object.values(S.inventory).flat().forEach((sk) => lines.push(ok(`LOAD: ${sk.toLowerCase()}`)));
+    lines.push("");
+    S.quests.forEach((q) => lines.push(ok(`MNT : /quests/${slug(q.title)}`)));
+    S.missions.forEach((m) => lines.push(ok(`INIT: mission ${m.name.toLowerCase()}`)));
+    lines.push(ok("ARCD: 6 cabinets online"), ok("ACHV: 21 achievements armed"), ok("NET : uplink Chapel Hill, NC"), ok("SYS : all systems nominal"));
+    // Make sure there are enough lines to fill the screen and scroll a little past it
+    const rows = Math.ceil(window.innerHeight / 18) + 8;
+    for (let n = 0; lines.length < rows; n++) lines.push(ok(`SCAN: sector ${hex(0xa000 + n * 0x40)} clear`));
+
+    // Pace by the real clock so the stream takes ~3.2s even on a busy or slow device
+    const STREAM_MS = 3200;
+    let i = 0, t0 = 0;
+    const welcome = () => {
+      if (el.classList.contains("done")) return;
+      el.classList.add("welcome");
+      const msg = "> welcome, player one.";
+      const out = $("#boot-welcome-text");
+      const w0 = performance.now() + 300;
+      const type = () => {
+        if (el.classList.contains("done")) return;
+        const k = Math.max(0, Math.min(msg.length, Math.floor((performance.now() - w0) / 55)));
+        out.textContent = msg.slice(0, k);
+        if (k < msg.length) setTimeout(type, 30);
+        else setTimeout(finish, 1100);
+      };
+      type();
+    };
     const tick = () => {
       if (el.classList.contains("done")) return;
-      if (i < lines.length) { log.textContent += lines[i++] + "\n"; setTimeout(tick, i < 3 ? 160 : 110); }
-      else setTimeout(finish, 550);
+      if (!t0) t0 = performance.now();
+      // first two lines arrive slowly, then the rest stream to fill the screen
+      const el2 = performance.now() - t0;
+      const due = el2 < 500 ? Math.min(2, 1 + Math.floor(el2 / 260)) : Math.min(lines.length, 2 + Math.floor(((el2 - 500) / (STREAM_MS - 500)) * (lines.length - 2)));
+      if (due > i) { log.textContent += lines.slice(i, due).join("\n") + "\n"; i = due; }
+      if (i < lines.length) setTimeout(tick, 25);
+      else setTimeout(welcome, 250);
     };
     window.addEventListener("keydown", finish);
     el.addEventListener("click", finish);
@@ -202,6 +243,7 @@
   /* ───────────── Render content ───────────── */
   function render() {
     $("#headline").textContent = S.headline;
+    $("#design-note-text").textContent = S.designNote;
     $("#pc-name").textContent = S.name;
     $("#pc-class").textContent = S.playerClass;
     $("#pc-loc").textContent = S.location;
@@ -277,9 +319,9 @@
       </div>`).join("");
 
     const links = [];
-    if (S.links.email) links.push(`<a class="btn btn-primary" href="mailto:${esc(S.links.email)}">✉ ${esc(S.links.email)}</a>`);
-    if (S.links.linkedin) links.push(`<a class="btn" href="${esc(S.links.linkedin)}" target="_blank" rel="noopener">in LinkedIn</a>`);
-    if (S.links.github) links.push(`<a class="btn" href="${esc(S.links.github)}" target="_blank" rel="noopener">⌥ GitHub</a>`);
+    if (S.links.email) links.push(`<a class="btn btn-primary" href="mailto:${esc(S.links.email)}">${ICON.mail} ${esc(S.links.email)}</a>`);
+    if (S.links.linkedin) links.push(`<a class="btn" href="${esc(S.links.linkedin)}" target="_blank" rel="noopener">${ICON.linkedin} LinkedIn</a>`);
+    if (S.links.github) links.push(`<a class="btn" href="${esc(S.links.github)}" target="_blank" rel="noopener">${ICON.github} GitHub</a>`);
     if (S.links.resume) links.push(`<a class="btn" href="${esc(S.links.resume)}" download>⬇ Resume</a>`);
     $("#contact-links").innerHTML = links.join("");
     $$("#contact-links a").forEach((a) => a.addEventListener("click", () => unlock("comms")));
@@ -401,6 +443,20 @@
     return { set };
   }
 
+  /* ───────────── Pilot mode (loaded on demand) ───────────── */
+  function pilotMode() {
+    const launch = async () => {
+      try {
+        const mod = await import(new URL("js/pilot.js", document.baseURI).href);
+        mod.open();
+      } catch (err) {
+        toast("⚠️", "Pilot mode needs WebGL, which this browser doesn't support", "UNAVAILABLE");
+      }
+    };
+    $$("#fly-btn, .fly-cta").forEach((b) => b.addEventListener("click", launch));
+    return { launch };
+  }
+
   function konami(sf) {
     const code = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
     let pos = 0;
@@ -425,6 +481,7 @@
     const goto = (id) => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }); };
     const files = {
       "about.txt": () => S.bio.map(esc).join("\n\n"),
+      "about-site.txt": () => esc(S.designNote),
       "resume.md": () => cmds.quests(),
       "secret.txt": () => "🥁 fun fact: I play drums. a kick drum is just a very loud clock signal.",
     };
@@ -432,7 +489,8 @@
     const cmds = {
       help: () => [
         "<span class='hl'>available commands</span>",
-        "  whoami        who is Vinir?",
+        "  whoisvinir    who is Vinir?",
+        "  cat about-site.txt   why this site looks like a game",
         "  quests        experience log",
         "  missions      projects",
         "  skills        inventory",
@@ -442,18 +500,19 @@
         "  goto &lt;id&gt;     jump to: about quests missions inventory arcade contact",
         "  ls / cat      browse files",
         "  games         list arcade games",
-        "  play [game]   launch a game: dodger breaker memory typer ttt",
+        "  play [game]   launch a game: dodger breaker memory typer ttt geo",
         "  recruiter     toggle recruiter mode (plain resume view)",
+        "  fly           launch pilot mode: fly between planets",
         "  warp          engage warp drive",
         "  achievements  your progress",
         "  history, date, echo, clear",
       ].join("\n"),
-      whoami: () => `<span class='y'>${esc(S.name)}</span> — ${esc(S.playerClass)}\n${esc(S.headline)}\nbase: ${esc(S.location)}`,
-      about: () => cmds.whoami() + "\n\n" + esc(S.bio[0]),
+      whoisvinir: () => `<span class='y'>${esc(S.name)}</span> · ${esc(S.playerClass)}\n${esc(S.headline)}\nbase: ${esc(S.location)}`,
+      about: () => cmds.whoisvinir() + "\n\n" + esc(S.bio[0]),
       quests: () => S.quests.map((q) => `<span class='${q.status === "active" ? "ok" : "hl"}'>${q.status === "active" ? "●" : "✓"}</span> ${esc(q.title)}\n   <span class='y'>${esc(q.org)}</span> · ${esc(q.dates)}`).join("\n"),
-      missions: () => S.missions.map((m) => `${m.icon} <span class='hl'>${esc(m.name)}</span> — ${esc(m.subtitle)}${m.live ? "  " + link(m.live, "[live]") : ""}${m.repo ? "  " + link(m.repo, "[src]") : ""}`).join("\n"),
+      missions: () => S.missions.map((m) => `${m.icon} <span class='hl'>${esc(m.name)}</span>: ${esc(m.subtitle)}${m.live ? "  " + link(m.live, "[live]") : ""}${m.repo ? "  " + link(m.repo, "[src]") : ""}`).join("\n"),
       skills: () => Object.entries(S.inventory).map(([g, it]) => `<span class='y'>${esc(g)}</span>: ${it.map(esc).join(", ")}`).join("\n"),
-      education: () => S.education.map((e) => `🎓 ${esc(e.degree)} — ${esc(e.school)} (${esc(e.dates)})${e.detail ? "\n   " + esc(e.detail) : ""}`).join("\n"),
+      education: () => S.education.map((e) => `🎓 ${esc(e.degree)}, ${esc(e.school)} (${esc(e.dates)})${e.detail ? "\n   " + esc(e.detail) : ""}`).join("\n"),
       awards: () => S.trophies.map((t) => `${t.icon} ${esc(t.name)}`).join("\n"),
       contact: () => [
         S.links.email && `email    <a href="mailto:${esc(S.links.email)}">${esc(S.links.email)}</a>`,
@@ -463,14 +522,15 @@
       ls: () => Object.keys(files).map((f) => `<span class='hl'>${f}</span>`).join("  "),
       cat: (arg) => files[arg] ? files[arg]() : `<span class='err'>cat: ${esc(arg || "")}: no such file</span>`,
       goto: (arg) => { if (!document.getElementById(arg || "")) return `<span class='err'>goto: unknown section '${esc(arg || "")}'</span>`; goto(arg); return `<span class='ok'>navigating to #${esc(arg)}…</span>`; },
-      games: () => (window.ARCADE ? ARCADE.games.map((g) => `${g.icon} <span class='hl'>${g.id.padEnd(8)}</span> ${esc(g.name)} — ${esc(g.blurb)}`).join("\n") + "\n\ntype <span class='y'>play &lt;id&gt;</span>" : "arcade offline"),
+      games: () => (window.ARCADE ? ARCADE.games.map((g) => `${g.icon} <span class='hl'>${g.id.padEnd(8)}</span> ${esc(g.name)}: ${esc(g.blurb)}`).join("\n") + "\n\ntype <span class='y'>play &lt;id&gt;</span>" : "arcade offline"),
       play: (arg) => {
         const g = window.ARCADE && ARCADE.games.find((x) => x.id === (arg || "").toLowerCase());
-        if (arg && !g) return `<span class='err'>play: unknown game '${esc(arg)}'</span> — try <span class='y'>games</span>`;
+        if (arg && !g) return `<span class='err'>play: unknown game '${esc(arg)}'</span>. Try <span class='y'>games</span>`;
         if (window.ARCADE) ARCADE.open(g ? g.id : "dodger");
         goto("arcade");
         return `<span class='ok'>launching ${esc(g ? g.name : "the arcade")}…</span>`;
       },
+      fly: () => { pilot.launch(); return "<span class='ok'>🚀 launching pilot mode… press Esc to return</span>"; },
       recruiter: () => { const on = !document.body.classList.contains("recruiter"); rm.set(on, true); return on ? "<span class='ok'>recruiter mode on: plain resume view</span>" : "<span class='ok'>full experience restored</span>"; },
       warp: () => { sf.warp(); return "<span class='ok'>⚡ warp drive engaged</span>"; },
       achievements: () => `${got.size}/${ACH.length} unlocked\n` + ACH.map((a) => `${got.has(a.id) ? a.icon : "🔒"} ${got.has(a.id) ? esc(a.name) : "???"}`).join("\n"),
@@ -487,7 +547,7 @@
       rm: () => "<span class='err'>nice try.</span>",
       exit: () => "there is no escape from VINIR.OS. (but you can scroll)",
     };
-    const alias = { "?": "help", man: "help", experience: "quests", projects: "missions", work: "quests", inventory: "skills", game: "play", arcade: "play", resume: "quests", email: "contact", linkedin: "contact", github: "contact", cls: "clear" };
+    const alias = { "?": "help", man: "help", experience: "quests", projects: "missions", work: "quests", inventory: "skills", game: "play", arcade: "play", resume: "quests", email: "contact", linkedin: "contact", github: "contact", cls: "clear", pilot: "fly", whoami: "whoisvinir", whois: "whoisvinir" };
 
     function run(line) {
       const raw = line.trim();
@@ -497,7 +557,7 @@
       const [c0, ...rest] = raw.split(/\s+/);
       const name = alias[c0.toLowerCase()] || c0.toLowerCase();
       const fn = cmds[name];
-      if (!fn) { print(`<span class='err'>command not found: ${esc(c0)}</span> — type <span class='y'>help</span>`); return; }
+      if (!fn) { print(`<span class='err'>command not found: ${esc(c0)}</span>. Type <span class='y'>help</span>`); return; }
       const res = fn(rest[0], rest.join(" "));
       if (res) print(res);
       unlock("hacker");
@@ -517,7 +577,7 @@
     });
     $("#term").addEventListener("click", (e) => { if (!e.target.closest("a")) input.focus({ preventScroll: true }); });
 
-    print(`<span class='ok'>VINIR.OS terminal v3.0</span> — type <span class='y'>help</span> to list commands. Tab completes, ↑/↓ for history.`);
+    print(`<span class='ok'>VINIR.OS terminal v3.0</span>. Type <span class='y'>help</span> to list commands. Tab completes, ↑/↓ for history.`);
   }
 
   /* ───────────── Init ───────────── */
@@ -533,6 +593,7 @@
   mobileNav();
   observe();
   const rm = recruiterMode();
+  const pilot = pilotMode();
   konami(sf);
   terminal(sf);
 })();

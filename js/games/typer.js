@@ -1,4 +1,4 @@
-/* Hyper Typer — a typing-speed test using lines of code from Vinir's projects. */
+/* Hyper Typer: a typing-speed test using lines of code from Vinir's projects. */
 ARCADE.register({
   id: "typer",
   name: "Hyper Typer",

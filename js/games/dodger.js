@@ -1,4 +1,4 @@
-/* Orbital Debris Dodger — pilot a satellite through LEO, dodge debris, grab data cores. */
+/* Orbital Debris Dodger: pilot a satellite through LEO, dodge debris, grab data cores. */
 ARCADE.register({
   id: "dodger",
   name: "Debris Dodger",

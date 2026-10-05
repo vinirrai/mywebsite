@@ -1,4 +1,4 @@
-/* VINIR.OS — 3D hero: a data-globe with orbiting satellites you can click to
+/* VINIR.OS 3D hero: a data-globe with orbiting satellites you can click to
  * navigate the site, plus a debris belt (a nod to CelestiaGrid).
  * Falls back silently to the 2D starfield when WebGL is unavailable,
  * the visitor prefers reduced motion, or Recruiter Mode is on. */
@@ -17,7 +17,14 @@ function webglAvailable() {
   }
 }
 
-if (host && labelLayer && !reduceMotion && webglAvailable()) init();
+if (host && labelLayer && !reduceMotion && webglAvailable()) {
+  const boot = document.getElementById("boot");
+  const ready = () => !boot || boot.classList.contains("done");
+  if (ready()) init();
+  else {
+    const wait = setInterval(() => { if (ready()) { clearInterval(wait); init(); } }, 150);
+  }
+}
 
 function init() {
   const VOS = window.VOS || { unlock() {}, warp() {} };

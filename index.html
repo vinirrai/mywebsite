@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vinir Rai — VINIR.OS</title>
+  <title>Vinir Rai | VINIR.OS</title>
   <meta name="description" content="Vinir Rai: M.S. Computer Science at UNC Chapel Hill. Applied AI &amp; software engineer building RAG systems, agentic AI, data pipelines and interactive 3D interfaces." />
-  <meta property="og:title" content="Vinir Rai — VINIR.OS" />
+  <meta property="og:title" content="Vinir Rai | VINIR.OS" />
   <meta property="og:description" content="Interactive 3D portfolio &amp; resume of Vinir Rai: applied AI, agentic systems, full-stack web. Includes an arcade." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#05060f" />
@@ -21,6 +21,7 @@
   <!-- Boot sequence -->
   <div id="boot" aria-hidden="true">
     <pre id="boot-log"></pre>
+    <div class="boot-welcome"><span id="boot-welcome-text"></span><span class="caret">▌</span></div>
     <div class="boot-hint">press any key or click to skip</div>
   </div>
 
@@ -42,6 +43,7 @@
         <li><a href="#contact">Comms</a></li>
       </ul>
     </nav>
+    <button id="fly-btn" class="recruiter-btn fly-btn mono" title="Fly a ship between planets to explore the resume">🚀 <span>Pilot mode</span></button>
     <button id="recruiter-btn" class="recruiter-btn mono" aria-pressed="false" title="Skip the animations and games: a fast, plain resume view">👔 <span>Recruiter mode</span></button>
     <div class="hud-xp" title="Explore the site and unlock achievements to level up">
       <span class="lvl">LV <b id="lvl">1</b></span>
@@ -65,9 +67,14 @@
         <div class="cta-row">
           <a href="#missions" class="btn btn-primary">▶ Start Mission</a>
           <a href="#arcade" class="btn">🎮 Play Arcade</a>
+          <button class="btn fly-cta" type="button">🚀 Pilot mode</button>
           <a id="resume-btn" href="#" class="btn" download hidden>⬇ Resume</a>
         </div>
         <p class="hint mono"><span class="hint-3d">drag the globe · tap a satellite to travel · </span>click space to warp · try the konami code</p>
+        <details class="design-note">
+          <summary class="mono">ⓘ why a game?</summary>
+          <p id="design-note-text"></p>
+        </details>
       </div>
       <a href="#about" class="scroll-cue" aria-label="Scroll to profile"><span></span></a>
     </section>
@@ -100,7 +107,7 @@
         </div>
       </div>
       <div class="edu-row">
-        <div class="card"><h3 class="card-title mono">// ACADEMY</h3><div id="education"></div></div>
+        <div class="card"><h3 class="card-title mono">// ACADEMICS</h3><div id="education"></div></div>
         <div class="card"><h3 class="card-title mono">// TROPHY CASE</h3><ul id="trophies" class="trophies"></ul></div>
         <div class="card"><h3 class="card-title mono">// GUILDS &amp; SIDE QUESTS</h3><div id="guilds"></div></div>
       </div>
@@ -147,7 +154,7 @@
 
     <!-- ARCADE -->
     <section id="arcade" class="section" data-section>
-      <h2 class="section-title"><span class="idx">06</span> Arcade <small class="mono dim">5 games · scores saved on this device</small></h2>
+      <h2 class="section-title"><span class="idx">06</span> Arcade <small class="mono dim">6 games · scores saved on this device</small></h2>
       <div id="game-tabs" class="game-tabs" role="tablist" aria-label="Choose a game"></div>
       <p id="game-help" class="game-help"></p>
       <div id="arcade-stage" class="arcade card" aria-live="polite"></div>
@@ -157,7 +164,7 @@
     <section id="contact" class="section" data-section>
       <h2 class="section-title"><span class="idx">07</span> Open Comms Channel</h2>
       <div class="card contact">
-        <p class="big">Building something interesting, hiring, or just want to talk ideas? <span class="accent">Let's connect.</span></p>
+        <p class="big">Building something interesting, hiring or just want to talk ideas? <span class="accent">Let's connect.</span></p>
         <div class="contact-links" id="contact-links"></div>
       </div>
     </section>
@@ -185,6 +192,7 @@
   <script src="js/games/memory.js"></script>
   <script src="js/games/typer.js"></script>
   <script src="js/games/tictactoe.js"></script>
+  <script src="js/games/geo.js"></script>
   <script type="module" src="js/scene3d.js"></script>
 </body>
 </html>

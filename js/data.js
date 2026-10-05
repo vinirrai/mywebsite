@@ -1,6 +1,6 @@
 /*
  * ─────────────────────────────────────────────────────────────
- *  VINIR.OS — CONTENT FILE
+ *  VINIR.OS: CONTENT FILE
  *  Everything shown on the site lives here. Edit this file to
  *  update your resume; no other code changes are needed.
  * ─────────────────────────────────────────────────────────────
@@ -8,7 +8,7 @@
 window.SITE = {
   name: "Vinir Rai",
   handle: "vinirrai",
-  headline: "B.S.–M.S. Computer Science @ UNC Chapel Hill · Applied AI & Software Engineering",
+  headline: "B.S.-M.S. Computer Science @ UNC Chapel Hill · Applied AI & Software Engineering",
   roles: [
     "Software Engineer",
     "Applied AI Engineer",
@@ -17,12 +17,15 @@ window.SITE = {
     "Graduate TA",
   ],
   location: "Chapel Hill, NC",
-  playerClass: "Applied AI Engineer · Full-Stack Mage",
+  playerClass: "Applied AI Engineer · Full-Stack Developer",
+
+  // Shown under "why a game?" in the hero and in the terminal (cat about-site.txt)
+  designNote: "I love games and great graphics, so I built my portfolio like one. Every part of it maps to my real experience: quests are the roles I've held, missions are projects I've built and each arcade game is inspired by my work.",
 
   bio: [
-    "Hi, I'm Vinir! I'm an M.S. Computer Science student at UNC Chapel Hill through the accelerated B.S.–M.S. program, and I serve as a Graduate TA for COMP 523: Software Engineering Laboratory. I graduated from UNC with a B.S. in Computer Science with Distinction, with minors in Data Science and South Asian Studies.",
-    "I work across software engineering, data systems, applied AI and research, and I enjoy building technology that solves practical problems: a health-focused iOS app, a data analytics dashboard for AAA, a satellite tracking system, full-stack products, and RAG-based assistants and agentic AI systems. I've taught and worked with students in software engineering, data science, machine learning and applied AI at UNC and BITSoM, and I'm exploring research in applied AI and NLP while serving as Chair of UNC's Student Technology Council.",
-    "Outside of tech I play drums, soccer and 8-ball pool, and I love bringing people together through cultural and community events. Always happy to connect with people working on interesting problems in software, AI, NLP or research.",
+    "Hi, I'm Vinir! I'm an M.S. Computer Science student at UNC Chapel Hill through the accelerated B.S.-M.S. program. I serve as a Graduate TA for COMP 523: Software Engineering Laboratory. I graduated from UNC with a B.S. in Computer Science with Distinction, with minors in Data Science and South Asian Studies.",
+    "I work across software engineering, data systems, applied AI and research, and I enjoy building technology that solves practical problems: a health-focused iOS app, a data analytics dashboard for AAA, a satellite tracking system, full-stack products and RAG-based assistants and agentic AI systems. I've taught and worked with students in software engineering, data science, machine learning and applied AI at UNC and BITSoM. I'm also exploring research in applied AI and NLP while serving as Chair of UNC's Student Technology Council.",
+    "Outside of tech I play drums, soccer and 8-ball pool. I also love bringing people together through cultural and community events. Always happy to connect with people working on interesting problems in software, AI, NLP or research.",
   ],
 
   // Headline numbers shown on the player card.
@@ -38,10 +41,10 @@ window.SITE = {
     github: "https://github.com/vinirrai",
     linkedin: "https://www.linkedin.com/in/vinirrai/",
     email: "vinirrai@unc.edu",
-    resume: "", // e.g. "assets/Vinir_Rai_Resume.pdf" — drop the PDF into /assets
+    resume: "", // e.g. "assets/Vinir_Rai_Resume.pdf" (drop the PDF into /assets)
   },
 
-  // Player attributes: self-rated 0–100. Tweak freely.
+  // Player attributes: self-rated 0 to 100. Tweak freely.
   stats: [
     { label: "AI / RAG & Agentic Systems", value: 92 },
     { label: "Python & Data Pipelines", value: 90 },
@@ -54,10 +57,10 @@ window.SITE = {
   // Experience → "Quest Log". status: "active" | "complete"
   quests: [
     {
-      title: "Graduate Teaching Assistant — COMP 523: Software Engineering Lab",
+      title: "Graduate Teaching Assistant (COMP 523: Software Engineering Lab)",
       org: "UNC Department of Computer Science",
       where: "Chapel Hill, NC",
-      dates: "Aug 2026 — Present",
+      dates: "Aug 2026 - Present",
       status: "active",
       xp: 2000,
       points: [
@@ -69,10 +72,10 @@ window.SITE = {
       tags: ["Software Architecture", "Code Review", "Mentoring", "SDLC"],
     },
     {
-      title: "Applied AI Developer — MBA Course (AIBM)",
+      title: "Applied AI Developer (AIBM MBA Course)",
       org: "BITSoM · BITS School of Management",
       where: "Remote",
-      dates: "Jun 2026 — Jul 2026",
+      dates: "Jun 2026 - Jul 2026",
       status: "complete",
       xp: 1900,
       points: [
@@ -85,26 +88,26 @@ window.SITE = {
       tags: ["Agentic AI", "RAG", "LLM APIs", "Docker", "Codespaces"],
     },
     {
-      title: "TA & Course Systems Developer — MBA 742 / COMP 488",
+      title: "TA & Course Systems Developer (MBA 742 / COMP 488)",
       org: "UNC Department of Computer Science · Applied Data Science & AI",
       where: "Chapel Hill, NC",
-      dates: "Jan 2026 — May 2026",
+      dates: "Jan 2026 - May 2026",
       status: "complete",
       xp: 2000,
       points: [
         "Developed and maintained Carla and Nik, retrieval-augmented course assistants that answer student questions from approved slides, documents and Jupyter notebooks.",
         "Re-architected a single-path ingestion notebook into reusable PDF, notebook and text pipelines so the same RAG infrastructure serves multiple courses.",
-        "Fixed a recurring citation bug with slide-aware text-to-image alignment, and replaced random image-hosting URLs with deterministic, course-specific SFTP paths.",
+        "Fixed a recurring citation bug with slide-aware text-to-image alignment and replaced random image-hosting URLs with deterministic, course-specific SFTP paths.",
         "Engineered the Python/Pinecone workflow: batched upserts, retries, standardized metadata, source-level deletion and stale-record checks.",
         "Coached MBA and undergraduate students on pandas, NumPy, regression, trees, random forests, clustering, RAG and model evaluation.",
       ],
       tags: ["RAG", "Pinecone", "Python", "LLMs", "Teaching"],
     },
     {
-      title: "Teaching Assistant — COMP 126 / 426 Web Development",
+      title: "Teaching Assistant (COMP 126 / 426 Web Development)",
       org: "UNC Department of Computer Science",
       where: "Chapel Hill, NC",
-      dates: "Aug 2025 — Jan 2026",
+      dates: "Aug 2025 - Jan 2026",
       status: "complete",
       xp: 1200,
       points: [
@@ -115,10 +118,10 @@ window.SITE = {
       tags: ["HTML/CSS/JS", "Accessibility", "Mentoring"],
     },
     {
-      title: "IT Innovations Intern — Full-Stack Development",
-      org: "AAA — The Auto Club Group",
+      title: "IT Innovations Intern (Full-Stack Development)",
+      org: "AAA The Auto Club Group",
       where: "Detroit, MI",
-      dates: "May 2025 — Aug 2025",
+      dates: "May 2025 - Aug 2025",
       status: "complete",
       xp: 1800,
       points: [
@@ -130,10 +133,10 @@ window.SITE = {
       tags: ["Angular", "Chart.js", "SCSS", "Figma", "Agile"],
     },
     {
-      title: "RLP Resident Advisor — BLUE Entrepreneurship Community",
+      title: "RLP Resident Advisor (BLUE Entrepreneurship Community)",
       org: "UNC Carolina Housing",
       where: "Chapel Hill, NC",
-      dates: "Jan 2025 — May 2025",
+      dates: "Jan 2025 - May 2025",
       status: "complete",
       xp: 900,
       points: [
@@ -144,10 +147,10 @@ window.SITE = {
       tags: ["Leadership", "Community", "Crisis Mgmt"],
     },
     {
-      title: "Undergraduate Data Analyst — University Cashier's Office",
+      title: "Undergraduate Data Analyst (University Cashier's Office)",
       org: "UNC Finance & Operations",
       where: "Chapel Hill, NC",
-      dates: "Jul 2024 — Dec 2024",
+      dates: "Jul 2024 - Dec 2024",
       status: "complete",
       xp: 1000,
       points: [
@@ -161,7 +164,7 @@ window.SITE = {
       title: "Education Team Member",
       org: "UNC CS + Social Good",
       where: "Chapel Hill, NC",
-      dates: "Jan 2024 — Jun 2024",
+      dates: "Jan 2024 - Jun 2024",
       status: "complete",
       xp: 700,
       points: [
@@ -174,7 +177,7 @@ window.SITE = {
       title: "Undergraduate Research Assistant",
       org: "UNC Kenan-Flagler Business School",
       where: "Chapel Hill, NC",
-      dates: "Jul 2023 — Jan 2024",
+      dates: "Jul 2023 - Jan 2024",
       status: "complete",
       xp: 1400,
       points: [
@@ -187,7 +190,7 @@ window.SITE = {
       title: "Web Development Intern",
       org: "THE THEATÍS",
       where: "Bengaluru, India",
-      dates: "May 2022 — Jul 2022",
+      dates: "May 2022 - Jul 2022",
       status: "complete",
       xp: 600,
       points: [
@@ -205,7 +208,7 @@ window.SITE = {
       subtitle: "Orbital Satellite & Debris Tracker",
       badge: "Carolina Data Challenge 2025",
       description:
-        "An end-to-end orbital-data platform: ingests and validates TLE records from NASA / CelesTrak and Space-Track, propagates them with Skyfield/SGP4 into daily 30-day position forecasts, and renders thousands of objects on an interactive Three.js globe — colour-coded by altitude band with conjunction detection and an AI assistant you can ask “Where is the ISS right now?”.",
+        "An end-to-end orbital-data platform: ingests and validates TLE records from NASA / CelesTrak and Space-Track, propagates them with Skyfield/SGP4 into daily 30-day position forecasts and renders thousands of objects on an interactive Three.js globe. Objects are color-coded by altitude band, with conjunction detection and an AI assistant you can ask 'Where is the ISS right now?'",
       tech: ["Python", "Skyfield / SGP4", "Three.js", "Satellite.js", "Vite"],
       category: ["data", "web", "ai"],
       repo: "https://github.com/vinirrai/2025-Sep-CDC-Project",
@@ -241,7 +244,7 @@ window.SITE = {
       subtitle: "AI Real Estate Analytics Platform",
       badge: "2025",
       description:
-        "A full-stack property assistant combining structured property data, vector retrieval and an expert-routing architecture to answer natural-language real-estate questions — with interactive analytics views, JWT auth, a Dockerized backend and GitHub → Vercel deploys.",
+        "A full-stack property assistant combining structured property data, vector retrieval and an expert-routing architecture to answer natural-language real-estate questions. It includes interactive analytics views, JWT auth, a Dockerized backend and GitHub to Vercel deploys.",
       tech: ["Next.js", "Express", "MongoDB", "Pinecone", "Docker", "JWT"],
       category: ["ai", "web"],
       repo: "",
@@ -251,7 +254,7 @@ window.SITE = {
     {
       name: "FitSync",
       subtitle: "Personal Health & Fitness Tracker (iOS)",
-      badge: "Mar — May 2025",
+      badge: "Mar - May 2025",
       description:
         "An iOS app with persistent health and activity records, live run mapping and reusable MVVM components. Integrates OpenFoodFacts barcode lookup plus location and motion services to blend external data with real-time personal metrics.",
       tech: ["SwiftUI", "SwiftData", "MapKit", "CoreLocation", "MVVM"],
@@ -299,20 +302,20 @@ window.SITE = {
     {
       school: "University of North Carolina at Chapel Hill",
       degree: "M.S. in Computer Science",
-      dates: "Aug 2026 — Present",
-      detail: "Accelerated B.S.–M.S. program",
+      dates: "Aug 2026 - Present",
+      detail: "Accelerated B.S.-M.S. program",
     },
     {
       school: "University of North Carolina at Chapel Hill",
       degree: "B.S. in Computer Science, with Distinction",
-      dates: "Aug 2022 — May 2026",
+      dates: "Aug 2022 - May 2026",
       detail: "Minors: Data Science, South Asian Studies",
     },
   ],
 
   trophies: [
     { icon: "🏆", name: "Hall of Fame Award" },
-    { icon: "📜", name: "Dean's List ×4 (Fall 2024 – Spring 2026)" },
+    { icon: "📜", name: "Dean's List ×4 (Fall 2024 to Spring 2026)" },
     { icon: "🏛️", name: "Chair, UNC Student Technology Council" },
     { icon: "🎓", name: "B.S. with Distinction" },
   ],

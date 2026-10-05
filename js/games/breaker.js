@@ -1,4 +1,4 @@
-/* Bug Breaker — Breakout where every brick is a classic bug. Clear the board to ship. */
+/* Bug Breaker: Breakout where every brick is a classic bug. Clear the board to ship. */
 ARCADE.register({
   id: "breaker",
   name: "Bug Breaker",
