@@ -1,4 +1,4 @@
-/* Stack Match — a memory game built from Vinir's real tech stack.
+/* Stack Match: a memory game built from Vinir's real tech stack.
  * Each match reveals where that tool was used. */
 ARCADE.register({
   id: "memory",
@@ -11,7 +11,7 @@ ARCADE.register({
       { k: "Python", g: "🐍", fact: "Python + Pinecone pipelines power the Carla & Nik course assistants." },
       { k: "Pinecone", g: "🌲", fact: "Pinecone is the vector store behind Carla & Nik's cited answers." },
       { k: "Angular", g: "🅰️", fact: "Angular + Chart.js: the KPI dashboard built at AAA." },
-      { k: "Three.js", g: "🧊", fact: "Three.js renders CelestiaGrid's 3D globe, and this site's hero." },
+      { k: "Three.js", g: "🧊", fact: "Three.js renders CelestiaGrid's 3D globe and this site's hero." },
       { k: "SwiftUI", g: "🍎", fact: "SwiftUI + MapKit power FitSync's live run mapping." },
       { k: "Docker", g: "🐳", fact: "Docker/Codespaces gave BITSoM students reproducible AI labs." },
       { k: "Next.js", g: "▲", fact: "Next.js fronts EstateWise and the MyAI4 assistant." },
@@ -24,7 +24,7 @@ ARCADE.register({
 
     const hud = () => {
       const secs = started ? Math.floor((Date.now() - started) / 1000) : 0;
-      api.hud(`<span>MOVES <b>${moves}</b></span><span>PAIRS <b>${found}/8</b></span><span>TIME <b>${secs}s</b></span><span>BEST <b>${api.best() ?? "—"}</b></span>`);
+      api.hud(`<span>MOVES <b>${moves}</b></span><span>PAIRS <b>${found}/8</b></span><span>TIME <b>${secs}s</b></span><span>BEST <b>${api.best() ?? "-"}</b></span>`);
     };
 
     function deal() {

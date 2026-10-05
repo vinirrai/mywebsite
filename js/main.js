@@ -1,4 +1,4 @@
-/* VINIR.OS — interactive layer: boot, starfield, rendering, achievements, terminal */
+/* VINIR.OS interactive layer: boot, starfield, rendering, achievements, terminal */
 (() => {
   "use strict";
   const S = window.SITE;
@@ -31,7 +31,10 @@
     { id: "memory", icon: "🧠", name: "Total Recall", desc: "Completed Stack Match" },
     { id: "typer", icon: "⌨️", name: "Speed Coder", desc: "40+ WPM at 90%+ accuracy in Hyper Typer" },
     { id: "ttt", icon: "🤖", name: "Turing Tested", desc: "Drew against the Unbeatable minimax AI" },
-    { id: "arcade-all", icon: "🕹️", name: "Arcade Champion", desc: "Played all five arcade games" },
+    { id: "arcade-all", icon: "🕹️", name: "Arcade Champion", desc: "Played every arcade game" },
+    { id: "geo", icon: "🌍", name: "Geo Genius", desc: "Scored 5,000+ in Orbit Geo" },
+    { id: "fly", icon: "🚀", name: "Liftoff", desc: "Launched Pilot Mode" },
+    { id: "fly-all", icon: "🪐", name: "Grand Tour", desc: "Docked at every planet in Pilot Mode" },
   ];
   const got = new Set(store.get("vos-ach", []));
 
@@ -59,7 +62,7 @@
     store.set("vos-ach", [...got]);
     updateXP();
     toast(a.icon, a.name);
-    if (got.size === ACH.length) setTimeout(() => toast("👑", "100% complete — you're hired?", "ALL ACHIEVEMENTS"), 900);
+    if (got.size === ACH.length) setTimeout(() => toast("👑", "100% complete. You're hired?", "ALL ACHIEVEMENTS"), 900);
   }
 
   function renderAchList() {
@@ -401,6 +404,20 @@
     return { set };
   }
 
+  /* ───────────── Pilot mode (loaded on demand) ───────────── */
+  function pilotMode() {
+    const launch = async () => {
+      try {
+        const mod = await import(new URL("js/pilot.js", document.baseURI).href);
+        mod.open();
+      } catch (err) {
+        toast("⚠️", "Pilot mode needs WebGL, which this browser doesn't support", "UNAVAILABLE");
+      }
+    };
+    $$("#fly-btn, .fly-cta").forEach((b) => b.addEventListener("click", launch));
+    return { launch };
+  }
+
   function konami(sf) {
     const code = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
     let pos = 0;
@@ -442,18 +459,19 @@
         "  goto &lt;id&gt;     jump to: about quests missions inventory arcade contact",
         "  ls / cat      browse files",
         "  games         list arcade games",
-        "  play [game]   launch a game: dodger breaker memory typer ttt",
+        "  play [game]   launch a game: dodger breaker memory typer ttt geo",
         "  recruiter     toggle recruiter mode (plain resume view)",
+        "  fly           launch pilot mode: fly between planets",
         "  warp          engage warp drive",
         "  achievements  your progress",
         "  history, date, echo, clear",
       ].join("\n"),
-      whoami: () => `<span class='y'>${esc(S.name)}</span> — ${esc(S.playerClass)}\n${esc(S.headline)}\nbase: ${esc(S.location)}`,
+      whoami: () => `<span class='y'>${esc(S.name)}</span> · ${esc(S.playerClass)}\n${esc(S.headline)}\nbase: ${esc(S.location)}`,
       about: () => cmds.whoami() + "\n\n" + esc(S.bio[0]),
       quests: () => S.quests.map((q) => `<span class='${q.status === "active" ? "ok" : "hl"}'>${q.status === "active" ? "●" : "✓"}</span> ${esc(q.title)}\n   <span class='y'>${esc(q.org)}</span> · ${esc(q.dates)}`).join("\n"),
-      missions: () => S.missions.map((m) => `${m.icon} <span class='hl'>${esc(m.name)}</span> — ${esc(m.subtitle)}${m.live ? "  " + link(m.live, "[live]") : ""}${m.repo ? "  " + link(m.repo, "[src]") : ""}`).join("\n"),
+      missions: () => S.missions.map((m) => `${m.icon} <span class='hl'>${esc(m.name)}</span>: ${esc(m.subtitle)}${m.live ? "  " + link(m.live, "[live]") : ""}${m.repo ? "  " + link(m.repo, "[src]") : ""}`).join("\n"),
       skills: () => Object.entries(S.inventory).map(([g, it]) => `<span class='y'>${esc(g)}</span>: ${it.map(esc).join(", ")}`).join("\n"),
-      education: () => S.education.map((e) => `🎓 ${esc(e.degree)} — ${esc(e.school)} (${esc(e.dates)})${e.detail ? "\n   " + esc(e.detail) : ""}`).join("\n"),
+      education: () => S.education.map((e) => `🎓 ${esc(e.degree)}, ${esc(e.school)} (${esc(e.dates)})${e.detail ? "\n   " + esc(e.detail) : ""}`).join("\n"),
       awards: () => S.trophies.map((t) => `${t.icon} ${esc(t.name)}`).join("\n"),
       contact: () => [
         S.links.email && `email    <a href="mailto:${esc(S.links.email)}">${esc(S.links.email)}</a>`,
@@ -463,14 +481,15 @@
       ls: () => Object.keys(files).map((f) => `<span class='hl'>${f}</span>`).join("  "),
       cat: (arg) => files[arg] ? files[arg]() : `<span class='err'>cat: ${esc(arg || "")}: no such file</span>`,
       goto: (arg) => { if (!document.getElementById(arg || "")) return `<span class='err'>goto: unknown section '${esc(arg || "")}'</span>`; goto(arg); return `<span class='ok'>navigating to #${esc(arg)}…</span>`; },
-      games: () => (window.ARCADE ? ARCADE.games.map((g) => `${g.icon} <span class='hl'>${g.id.padEnd(8)}</span> ${esc(g.name)} — ${esc(g.blurb)}`).join("\n") + "\n\ntype <span class='y'>play &lt;id&gt;</span>" : "arcade offline"),
+      games: () => (window.ARCADE ? ARCADE.games.map((g) => `${g.icon} <span class='hl'>${g.id.padEnd(8)}</span> ${esc(g.name)}: ${esc(g.blurb)}`).join("\n") + "\n\ntype <span class='y'>play &lt;id&gt;</span>" : "arcade offline"),
       play: (arg) => {
         const g = window.ARCADE && ARCADE.games.find((x) => x.id === (arg || "").toLowerCase());
-        if (arg && !g) return `<span class='err'>play: unknown game '${esc(arg)}'</span> — try <span class='y'>games</span>`;
+        if (arg && !g) return `<span class='err'>play: unknown game '${esc(arg)}'</span>. Try <span class='y'>games</span>`;
         if (window.ARCADE) ARCADE.open(g ? g.id : "dodger");
         goto("arcade");
         return `<span class='ok'>launching ${esc(g ? g.name : "the arcade")}…</span>`;
       },
+      fly: () => { pilot.launch(); return "<span class='ok'>🚀 launching pilot mode… press Esc to return</span>"; },
       recruiter: () => { const on = !document.body.classList.contains("recruiter"); rm.set(on, true); return on ? "<span class='ok'>recruiter mode on: plain resume view</span>" : "<span class='ok'>full experience restored</span>"; },
       warp: () => { sf.warp(); return "<span class='ok'>⚡ warp drive engaged</span>"; },
       achievements: () => `${got.size}/${ACH.length} unlocked\n` + ACH.map((a) => `${got.has(a.id) ? a.icon : "🔒"} ${got.has(a.id) ? esc(a.name) : "???"}`).join("\n"),
@@ -487,7 +506,7 @@
       rm: () => "<span class='err'>nice try.</span>",
       exit: () => "there is no escape from VINIR.OS. (but you can scroll)",
     };
-    const alias = { "?": "help", man: "help", experience: "quests", projects: "missions", work: "quests", inventory: "skills", game: "play", arcade: "play", resume: "quests", email: "contact", linkedin: "contact", github: "contact", cls: "clear" };
+    const alias = { "?": "help", man: "help", experience: "quests", projects: "missions", work: "quests", inventory: "skills", game: "play", arcade: "play", resume: "quests", email: "contact", linkedin: "contact", github: "contact", cls: "clear", pilot: "fly" };
 
     function run(line) {
       const raw = line.trim();
@@ -497,7 +516,7 @@
       const [c0, ...rest] = raw.split(/\s+/);
       const name = alias[c0.toLowerCase()] || c0.toLowerCase();
       const fn = cmds[name];
-      if (!fn) { print(`<span class='err'>command not found: ${esc(c0)}</span> — type <span class='y'>help</span>`); return; }
+      if (!fn) { print(`<span class='err'>command not found: ${esc(c0)}</span>. Type <span class='y'>help</span>`); return; }
       const res = fn(rest[0], rest.join(" "));
       if (res) print(res);
       unlock("hacker");
@@ -517,7 +536,7 @@
     });
     $("#term").addEventListener("click", (e) => { if (!e.target.closest("a")) input.focus({ preventScroll: true }); });
 
-    print(`<span class='ok'>VINIR.OS terminal v3.0</span> — type <span class='y'>help</span> to list commands. Tab completes, ↑/↓ for history.`);
+    print(`<span class='ok'>VINIR.OS terminal v3.0</span>. Type <span class='y'>help</span> to list commands. Tab completes, ↑/↓ for history.`);
   }
 
   /* ───────────── Init ───────────── */
@@ -533,6 +552,7 @@
   mobileNav();
   observe();
   const rm = recruiterMode();
+  const pilot = pilotMode();
   konami(sf);
   terminal(sf);
 })();

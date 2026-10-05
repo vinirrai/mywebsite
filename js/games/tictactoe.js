@@ -1,4 +1,4 @@
-/* Neural Tic-Tac-Toe — play against a minimax AI with alpha-beta pruning.
+/* Neural Tic-Tac-Toe: play against a minimax AI with alpha-beta pruning.
  * "Unbeatable" plays perfectly; "Casual" makes a random move 45% of the time. */
 ARCADE.register({
   id: "ttt",
