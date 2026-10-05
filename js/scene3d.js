@@ -240,8 +240,9 @@ function init() {
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     // On wide screens the globe sits to the right of the hero text
-    camera.setViewOffset(w, h, wide ? -w * 0.24 : 0, wide ? 0 : -h * 0.04, w, h);
-    camera.position.z = wide ? 12.5 : 13.5;
+    camera.setViewOffset(w, h, wide ? -w * 0.24 : 0, 0, w, h);
+    // In the stacked phone layout the box can be wider than tall; back off so the orbits fit
+    camera.position.z = wide ? 12.5 : (w > h ? 14.5 : 13);
     camera.updateProjectionMatrix();
   }
   new ResizeObserver(resize).observe(host);

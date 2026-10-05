@@ -113,6 +113,7 @@ img, svg, canvas { display: block; max-width: 100%; }
 .headline { color: var(--dim); max-width: 640px; margin: 0 auto 28px; }
 .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 .hero3d, .hero3d-labels { position: absolute; inset: 0; }
+.hero3d canvas { position: absolute; inset: 0; }
 .hero3d { z-index: 0; }
 .hero3d canvas { display: block; width: 100%; height: 100%; touch-action: pan-y; }
 .hero3d-labels { z-index: 1; pointer-events: none; overflow: hidden; }
@@ -139,9 +140,13 @@ img, svg, canvas { display: block; max-width: 100%; }
   .has-3d .hero-inner { pointer-events: none; }
   .has-3d .hero-inner a, .has-3d .hero-inner button { pointer-events: auto; }
 }
+/* Phones & tablets: text first, globe underneath it (not behind it) */
 @media (max-width: 980px) {
-  .has-3d .hero3d { opacity: .5; }
-  .hero3d-labels { display: none; }
+  .has-3d .hero { display: flex; flex-direction: column; align-items: center; min-height: 0; padding: 40px 16px 8px; }
+  .has-3d .hero-inner { order: 1; }
+  .has-3d .hero3d { order: 2; position: relative; inset: auto; width: 100%; max-width: 560px; height: min(92vw, 460px); margin-top: 4px; }
+  .has-3d .scroll-cue { display: none; }
+  .sat-label { font-size: 11px; padding: 3px 8px; }
 }
 .recruiter-contact { display: none; }
 body.recruiter .recruiter-contact { display: block; margin: 0 0 8px; font-size: 14px; color: var(--dim); }
