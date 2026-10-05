@@ -19,6 +19,9 @@ window.SITE = {
   location: "Chapel Hill, NC",
   playerClass: "Applied AI Engineer · Full-Stack Developer",
 
+  // Shown under "why a game?" in the hero and in the terminal (cat about-site.txt)
+  designNote: "I love games and great graphics, so I built my portfolio like one. Every part of it maps to my real experience: quests are the roles I've held, missions are projects I've built and each arcade game is inspired by my work.",
+
   bio: [
     "Hi, I'm Vinir! I'm an M.S. Computer Science student at UNC Chapel Hill through the accelerated B.S.-M.S. program. I serve as a Graduate TA for COMP 523: Software Engineering Laboratory. I graduated from UNC with a B.S. in Computer Science with Distinction, with minors in Data Science and South Asian Studies.",
     "I work across software engineering, data systems, applied AI and research, and I enjoy building technology that solves practical problems: a health-focused iOS app, a data analytics dashboard for AAA, a satellite tracking system, full-stack products and RAG-based assistants and agentic AI systems. I've taught and worked with students in software engineering, data science, machine learning and applied AI at UNC and BITSoM. I'm also exploring research in applied AI and NLP while serving as Chair of UNC's Student Technology Council.",

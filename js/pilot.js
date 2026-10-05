@@ -31,9 +31,9 @@ function panelHTML(id) {
       return `<p>${window.ARCADE ? ARCADE.games.length : 6} games: ${window.ARCADE ? ARCADE.games.map((g) => g.icon + " " + esc(g.name)).join(", ") : ""}.</p><p class="dim">Best scores are saved on this device.</p>`;
     case "contact":
       return list([
-        S.links.email && `<li>✉ <a href="mailto:${esc(S.links.email)}">${esc(S.links.email)}</a></li>`,
-        S.links.linkedin && `<li>in <a href="${esc(S.links.linkedin)}" target="_blank" rel="noopener">LinkedIn</a></li>`,
-        S.links.github && `<li>⌥ <a href="${esc(S.links.github)}" target="_blank" rel="noopener">GitHub</a></li>`,
+        S.links.email && `<li>${(window.VOS_ICON || {}).mail || ""} <a href="mailto:${esc(S.links.email)}">${esc(S.links.email)}</a></li>`,
+        S.links.linkedin && `<li>${(window.VOS_ICON || {}).linkedin || ""} <a href="${esc(S.links.linkedin)}" target="_blank" rel="noopener">LinkedIn</a></li>`,
+        S.links.github && `<li>${(window.VOS_ICON || {}).github || ""} <a href="${esc(S.links.github)}" target="_blank" rel="noopener">GitHub</a></li>`,
       ].filter(Boolean));
   }
   return "";

@@ -55,6 +55,18 @@ img, svg, canvas { display: block; max-width: 100%; }
   transition: opacity .5s ease, visibility .5s;
 }
 #boot.done { opacity: 0; visibility: hidden; }
+#boot { overflow: hidden; }
+#boot-log { transition: opacity .6s ease, filter .6s ease, transform .6s ease; }
+#boot.welcome #boot-log { opacity: .12; filter: blur(2px); transform: translateY(-24px); }
+.boot-welcome {
+  position: absolute; inset: 0; display: grid; place-content: center; text-align: center; padding: 16px;
+  font-family: var(--mono); font-size: clamp(22px, 5vw, 48px); color: var(--green);
+  text-shadow: 0 0 18px rgba(57,255,136,.8), 0 0 40px rgba(57,255,136,.4);
+  opacity: 0; transition: opacity .4s ease; pointer-events: none;
+}
+.boot-welcome .caret { color: var(--green); }
+#boot.welcome .boot-welcome { opacity: 1; }
+#boot.welcome .boot-hint { opacity: 0; }
 #boot-log { margin: 0; white-space: pre-wrap; font-size: clamp(11px, 1.6vw, 14px); line-height: 1.5; text-shadow: 0 0 6px rgba(57,255,136,.6); }
 .boot-hint { color: #3a7; font-size: 12px; margin-top: 12px; animation: blink 1.2s steps(2) infinite; }
 
@@ -148,6 +160,16 @@ img, svg, canvas { display: block; max-width: 100%; }
   .has-3d .scroll-cue { display: none; }
   .sat-label { font-size: 11px; padding: 3px 8px; }
 }
+.design-note { margin-top: 10px; font-size: 13px; color: var(--dim); pointer-events: auto; }
+.design-note summary { cursor: pointer; display: inline-block; font-size: 12px; color: var(--cyan); list-style: none; }
+.design-note summary::-webkit-details-marker { display: none; }
+.design-note summary:hover { text-decoration: underline; }
+.design-note p { max-width: 520px; margin: 8px auto 0; line-height: 1.6; }
+.has-3d .design-note p { margin-left: 0; }
+@media (max-width: 980px) { .has-3d .design-note p { margin: 8px auto 0; } }
+body.recruiter .design-note { display: none; }
+.ico { width: 1.1em; height: 1.1em; flex: none; vertical-align: -0.18em; }
+.pilot-body li .ico { margin-right: 6px; }
 .recruiter-contact { display: none; }
 body.recruiter .recruiter-contact { display: block; margin: 0 0 8px; font-size: 14px; color: var(--dim); }
 body.recruiter #quests .section-sub { display: none; }
@@ -476,7 +498,15 @@ body.konami { animation: hue 4s linear infinite; }
 }
 @media (max-width: 560px) {
   .recruiter-btn span { display: none; }
-  .recruiter-contact { display: none; }
+  .design-note { margin-top: 10px; font-size: 13px; color: var(--dim); pointer-events: auto; }
+.design-note summary { cursor: pointer; display: inline-block; font-size: 12px; color: var(--cyan); list-style: none; }
+.design-note summary::-webkit-details-marker { display: none; }
+.design-note summary:hover { text-decoration: underline; }
+.design-note p { max-width: 520px; margin: 8px auto 0; line-height: 1.6; }
+.has-3d .design-note p { margin-left: 0; }
+@media (max-width: 980px) { .has-3d .design-note p { margin: 8px auto 0; } }
+body.recruiter .design-note { display: none; }
+.recruiter-contact { display: none; }
 body.recruiter .recruiter-contact { display: block; margin: 0 0 8px; font-size: 14px; color: var(--dim); }
 body.recruiter #quests .section-sub { display: none; }
 .recruiter-btn { padding: 5px 8px; }

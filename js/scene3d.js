@@ -17,7 +17,14 @@ function webglAvailable() {
   }
 }
 
-if (host && labelLayer && !reduceMotion && webglAvailable()) init();
+if (host && labelLayer && !reduceMotion && webglAvailable()) {
+  const boot = document.getElementById("boot");
+  const ready = () => !boot || boot.classList.contains("done");
+  if (ready()) init();
+  else {
+    const wait = setInterval(() => { if (ready()) { clearInterval(wait); init(); } }, 150);
+  }
+}
 
 function init() {
   const VOS = window.VOS || { unlock() {}, warp() {} };
