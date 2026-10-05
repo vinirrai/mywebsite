@@ -78,17 +78,15 @@
   function boot() {
     const el = $("#boot");
     const log = $("#boot-log");
-    let seen = false;
-    try { seen = sessionStorage.getItem("vos-booted") === "1"; } catch { /* ignore */ }
     const finish = () => {
       if (el.classList.contains("done")) return;
       el.classList.add("done");
-      try { sessionStorage.setItem("vos-booted", "1"); } catch { /* ignore */ }
       window.removeEventListener("keydown", finish);
       el.removeEventListener("click", finish);
       unlock("boot");
     };
-    if (seen || reduceMotion) { el.classList.add("done"); unlock("boot"); return; }
+    // Plays on every visit (skippable with any key or click); skipped for reduced-motion users
+    if (reduceMotion) { el.classList.add("done"); unlock("boot"); return; }
     const lines = [
       "VINIR.OS BIOS v3.0  (c) 2026 Chapel Hill Dynamics",
       "",
@@ -105,8 +103,8 @@
     let i = 0;
     const tick = () => {
       if (el.classList.contains("done")) return;
-      if (i < lines.length) { log.textContent += lines[i++] + "\n"; setTimeout(tick, i < 3 ? 160 : 110); }
-      else setTimeout(finish, 550);
+      if (i < lines.length) { log.textContent += lines[i++] + "\n"; setTimeout(tick, i < 3 ? 320 : 230); }
+      else setTimeout(finish, 1500);
     };
     window.addEventListener("keydown", finish);
     el.addEventListener("click", finish);
